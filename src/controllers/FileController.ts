@@ -31,13 +31,14 @@ export default {
     async show(req: Request, res: Response) {
         const { id } = req.params;
 
-        const file = await nodesApi.getNode(id);
+        try {
+            const file = await nodesApi.getNode(id);
 
-        if(!file) {
+            return res.json(file);
+
+        } catch (error) {
             return res.status(403).json({ error: 'File not exists.' });
-        }
-
-        return res.json(file);
+        }    
     },
 
     async update(req: Request, res: Response) {
@@ -45,28 +46,25 @@ export default {
         const { type, number, year, description, author, date } = req.body;
         const properties: { [key: string]: string } = {};
 
-        const response = await nodesApi.getNode(id);
-
-        if(!response) {
-            return res.status(403).json({ error: 'File not exists.' });
-        }
-
-        const file = response.entry;
-
-        properties['cm:type'] = type ? type : file.properties['cm:type'];
-        properties['cm:number'] = number ? number : file.properties['cm:number'];
-        properties['cm:year'] = year ? year : file.properties['cm:year'];
-        properties['cm:description'] = description ? description : file.properties['cm:description'];
-        properties['cm:author'] = author ? author : file.properties['cm:author'];
-        properties['cm:date'] = date ? date : file.properties['cm:date'];
-
         try {
+            const response = await nodesApi.getNode(id);
+
+            const file = response.entry;
+
+            properties['cm:type'] = type ? type : file.properties['cm:type'];
+            properties['cm:number'] = number ? number : file.properties['cm:number'];
+            properties['cm:year'] = year ? year : file.properties['cm:year'];
+            properties['cm:description'] = description ? description : file.properties['cm:description'];
+            properties['cm:author'] = author ? author : file.properties['cm:author'];
+            properties['cm:date'] = date ? date : file.properties['cm:date'];
+
             await nodesApi.updateNode(id, { properties });
+      
+            return res.json({ message: 'Update success.' });
+
         } catch (error) {
             return res.status(403).json({ error: 'Update failed.' });
         }
-      
-        return res.json({ message: 'Update success.' });
     },
 
     async destroy(req: Request, res: Response) {

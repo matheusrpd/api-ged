@@ -17,30 +17,29 @@ export default {
     async index(req: Request, res: Response) {
         const { id } = req.params;
 
-        const response = await nodesApi.listNodeChildren(id);
+        try {
+            const response = await nodesApi.listNodeChildren(id);
 
-        if(!response) {
+            const data = response.list?.entries;
+    
+            return res.json(data);
+
+        } catch (error) {
             return res.status(403).json({ error: 'Folder not exists.' });
         }
-          
-        const data = response.list?.entries;
-
-        return res.json(data);
     },
 
     async update(req: Request, res: Response) {
         const { id } = req.params;
         const { name } = req.body;
 
-        const response = await nodesApi.getNode(id);
-
-        if(!response) {
-            return res.status(403).json({ error: 'Folder not exists.' });
+        try {
+            if(name) {
+                await nodesApi.updateNode(id, { name })
+            }
+        } catch (error) {
+            return res.status(403).json({ error: 'Update failed.' });
         }
-
-        const folder = response.entry;
-
-        folder.name = name ? name :  folder.name;
 
         return res.json({ message: 'Update success.' });
     },
