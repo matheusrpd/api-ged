@@ -53,6 +53,6 @@ export default {
             return res.status(403).json({ error: 'Update failed.' });
         }
         
-        return res.json({ message: 'Update sucessed.' });
+        return res.json({ message: 'Update success.' });
     }
 }

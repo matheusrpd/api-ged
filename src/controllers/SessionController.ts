@@ -11,6 +11,6 @@ export default {
             return res.status(403).json({ error: 'Login failed.' });
         }
 
-        return res.json({ message: 'Login sucess!' });
+        return res.json({ message: 'Login success!' });
     }
 }

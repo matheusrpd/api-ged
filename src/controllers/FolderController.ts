@@ -42,7 +42,7 @@ export default {
 
         folder.name = name ? name :  folder.name;
 
-        return res.json({ message: 'Update sucessed.' });
+        return res.json({ message: 'Update success.' });
     },
 
     async destroy(req: Request, res: Response) {
@@ -54,6 +54,6 @@ export default {
             return res.status(403).json({ error: 'Delete failded.' });
         }
         
-        return res.json({ message: 'Delete sucessed.' });
+        return res.json({ message: 'Delete success.' });
     }
 }
