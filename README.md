@@ -13,7 +13,7 @@ docker-compose up
 
 ### 2. Executar a aplicação
 
-- Clonar o repositório este repositório;]
+- Clonar este repositório;
 - Executar o comando de instalação das dependências:
 ```console
 yarn
