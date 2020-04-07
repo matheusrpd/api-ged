@@ -4,8 +4,8 @@ import fs from 'fs';
 
 export default {
     async store(req: Request, res: Response) {
-        const { parentId } = req.params;
         const { type, number, year, description, author, date } = req.body;
+        const parentId = req.header('parent-id')!;
         const properties: { [key: string]: string } = {};
 
         properties['cm:type'] = type;
@@ -20,7 +20,7 @@ export default {
         const response = await nodesApi.createNode(parentId, {
             name: description,
             nodeType: 'cm:content',
-            properties
+            properties: properties
         }, null, { filedata: file });
 
         fs.unlinkSync(req.file.path);
@@ -33,6 +33,22 @@ export default {
 
         const file = await nodesApi.getNode(id);
 
+        if(!file) {
+            return res.status(403).json({ error: 'File not exists.' });
+        }
+
         return res.json(file);
     },
+
+    async destroy(req: Request, res: Response) {
+        const { id } = req.params;
+
+        try {
+            await nodesApi.deleteNode(id);
+        } catch (error) {
+            return res.status(403).json({ error: 'Delete failded.' });
+        }
+        
+        return res.json({ message: 'Delete sucessed.' });
+    }
 }
