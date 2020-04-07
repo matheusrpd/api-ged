@@ -26,5 +26,34 @@ export default {
         const data = response.list?.entries;
 
         return res.json(data);
+    },
+
+    async update(req: Request, res: Response) {
+        const { id } = req.params;
+        const { name } = req.body;
+
+        const response = await nodesApi.getNode(id);
+
+        if(!response) {
+            return res.status(403).json({ error: 'Folder not exists.' });
+        }
+
+        const folder = response.entry;
+
+        folder.name = name ? name :  folder.name;
+
+        return res.json({ message: 'Update sucessed.' });
+    },
+
+    async destroy(req: Request, res: Response) {
+        const { id } = req.params;
+
+        try {
+            await nodesApi.deleteNode(id);
+        } catch (error) {
+            return res.status(403).json({ error: 'Delete failded.' });
+        }
+        
+        return res.json({ message: 'Delete sucessed.' });
     }
 }
