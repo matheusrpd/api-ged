@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { peopleApi } from '../services/AlfrescoApi';
 
 export default {
-  async store(req: Request, res: Response) {
+  async store(req: Request, res: Response): Promise<Response> {
     const { username, firstName, lastName, email, password } = req.body;
 
     const response = await peopleApi.createPerson({
@@ -16,7 +16,7 @@ export default {
     return res.json(response.entry);
   },
 
-  async show(req: Request, res: Response) {
+  async show(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
     try {
@@ -28,7 +28,7 @@ export default {
     }
   },
 
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { username, firstName, lastName, email, password } = req.body;
 

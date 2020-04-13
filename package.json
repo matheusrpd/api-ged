@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --respawn --ignore node_modules --transpileOnly src/server.ts"
+    "dev": "ts-node-dev --respawn --no-notify --ignore node_modules --transpileOnly src/server.ts"
   },
   "devDependencies": {
     "@types/express": "^4.17.4",

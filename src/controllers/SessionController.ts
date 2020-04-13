@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { alfrescoApi } from '../services/AlfrescoApi';
 
 export default {
-  async store(req: Request, res: Response) {
+  async store(req: Request, res: Response): Promise<Response> {
     const { username, password } = req.body;
 
     try {

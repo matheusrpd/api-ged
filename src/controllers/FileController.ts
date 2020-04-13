@@ -1,12 +1,14 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
-import { nodesApi } from '../services/AlfrescoApi';
+import { nodesApi, contentApi } from '../services/AlfrescoApi';
 
 export default {
-  async store(req: Request, res: Response) {
+  async store(req: Request, res: Response): Promise<Response> {
     const { type, number, year, description, author, date } = req.body;
     const { id: parentId } = req.params;
     const properties: { [key: string]: string } = {};
+
+    const file = fs.createReadStream(req.file.path);
 
     properties['cm:type'] = type;
     properties['cm:number'] = number;
@@ -14,8 +16,6 @@ export default {
     properties['cm:description'] = description;
     properties['cm:author'] = author;
     properties['cm:date'] = date;
-
-    const file = fs.createReadStream(req.file.path);
 
     const response = await nodesApi.createNode(
       parentId,
@@ -33,19 +33,47 @@ export default {
     return res.json(response.entry);
   },
 
-  async show(req: Request, res: Response) {
-    const { id } = req.params;
+  async show(req: Request, res: Response): Promise<Response> {
+    const { id: parentFolder } = req.params;
 
     try {
-      const file = await nodesApi.getNode(id);
+      const response = await nodesApi.getNode(parentFolder);
+      const file = response.entry;
 
-      return res.json(file);
+      const urlDownload = await contentApi.getContentUrl(file.id);
+      const urlPreview = await contentApi.getDocumentPreviewUrl(file.id);
+
+      const {
+        name,
+        id,
+        properties,
+        content,
+        createdByUser,
+        modifiedByUser,
+        createdAt,
+        modifiedAt,
+      } = file;
+
+      const data = {
+        name,
+        id,
+        properties,
+        content,
+        urlDownload,
+        urlPreview,
+        createdByUser,
+        modifiedByUser,
+        createdAt,
+        modifiedAt,
+      };
+
+      return res.json(data);
     } catch (error) {
       return res.status(400).json({ error: 'File not exists.' });
     }
   },
 
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { type, number, year, description, author, date } = req.body;
     const properties: { [key: string]: string } = {};
@@ -71,7 +99,7 @@ export default {
     }
   },
 
-  async destroy(req: Request, res: Response) {
+  async destroy(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
     try {

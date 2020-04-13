@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { nodesApi } from '../services/AlfrescoApi';
 
 export default {
-  async store(req: Request, res: Response) {
+  async store(req: Request, res: Response): Promise<Response> {
     const { id: parentId } = req.params;
     const { name } = req.body;
 
@@ -14,7 +14,7 @@ export default {
     return res.json(response.entry);
   },
 
-  async index(req: Request, res: Response) {
+  async index(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
     try {
@@ -28,7 +28,7 @@ export default {
     }
   },
 
-  async update(req: Request, res: Response) {
+  async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { name } = req.body;
 
@@ -43,7 +43,7 @@ export default {
     return res.json({ message: 'Update success.' });
   },
 
-  async destroy(req: Request, res: Response) {
+  async destroy(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
     try {
