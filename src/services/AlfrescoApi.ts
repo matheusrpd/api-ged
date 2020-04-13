@@ -4,7 +4,7 @@ import { NodesApi } from '@alfresco/js-api';
 import { UploadApi } from '@alfresco/js-api';
 
 export const alfrescoApi = new AlfrescoApi({
-    hostEcm: 'http://localhost:8080'
+  hostEcm: 'http://localhost:8080'
 })
 
 export const peopleApi = new PeopleApi(alfrescoApi);
