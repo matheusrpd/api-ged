@@ -13,12 +13,12 @@ const upload = multer(configUpload);
 
 routes.post('/sessions', SessionController.store);
 
-routes.post('/folders', FolderController.store);
+routes.post('/folders/:id', FolderController.store);
 routes.get('/folders/:id', FolderController.index);
 routes.put('/folders/:id', FolderController.update);
 routes.delete('/folders/:id', FolderController.destroy);
 
-routes.post('/files', upload.single('file'), FileController.store);
+routes.post('/folders/:id/files', upload.single('file'), FileController.store);
 routes.get('/files/:id', FileController.show);
 routes.put('/files/:id', FileController.update);
 routes.delete('/files/:id', FileController.destroy);

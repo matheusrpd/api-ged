@@ -25,7 +25,7 @@ export default {
             return res.json(response.entry);
 
         } catch (error) {
-            return res.status(403).json({ error: 'User not exists.' });
+            return res.status(400).json({ error: 'User not exists.' });
         }
 
     },
@@ -53,13 +53,13 @@ export default {
             try {
                 await peopleApi.updatePerson(id, bodyUpdate);
             } catch (error) {
-                return res.status(403).json({ error: 'Update failed.' });
+                return res.status(400).json({ error: 'Update failed.' });
             }
             
             return res.json({ message: 'Update success.' });
 
         } catch (error) {
-            return res.status(403).json({ error: 'User not exists.' });
+            return res.status(400).json({ error: 'User not exists.' });
         }
     }
 }

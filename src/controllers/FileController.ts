@@ -5,7 +5,7 @@ import fs from 'fs';
 export default {
     async store(req: Request, res: Response) {
         const { type, number, year, description, author, date } = req.body;
-        const parentId = req.header('parent-id')!;
+        const { id: parentId } = req.params;
         const properties: { [key: string]: string } = {};
 
         properties['cm:type'] = type;
@@ -37,7 +37,7 @@ export default {
             return res.json(file);
 
         } catch (error) {
-            return res.status(403).json({ error: 'File not exists.' });
+            return res.status(400).json({ error: 'File not exists.' });
         }    
     },
 
@@ -63,7 +63,7 @@ export default {
             return res.json({ message: 'Update success.' });
 
         } catch (error) {
-            return res.status(403).json({ error: 'Update failed.' });
+            return res.status(400).json({ error: 'Update failed.' });
         }
     },
 
@@ -73,7 +73,7 @@ export default {
         try {
             await nodesApi.deleteNode(id);
         } catch (error) {
-            return res.status(403).json({ error: 'Delete failded.' });
+            return res.status(400).json({ error: 'Delete failded.' });
         }
         
         return res.json({ message: 'Delete success.' });

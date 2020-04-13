@@ -3,7 +3,7 @@ import { nodesApi } from '../services/AlfrescoApi';
 
 export default {
     async store(req: Request, res: Response) {
-        const parentId = req.header('parent-id')!;
+        const { id: parentId }  = req.params;
         const { name } = req.body;
         
         const response = await nodesApi.createNode(parentId, {
@@ -25,7 +25,7 @@ export default {
             return res.json(data);
 
         } catch (error) {
-            return res.status(403).json({ error: 'Folder not exists.' });
+            return res.status(400).json({ error: 'Folder not exists.' });
         }
     },
 
@@ -38,7 +38,7 @@ export default {
                 await nodesApi.updateNode(id, { name })
             }
         } catch (error) {
-            return res.status(403).json({ error: 'Update failed.' });
+            return res.status(400).json({ error: 'Update failed.' });
         }
 
         return res.json({ message: 'Update success.' });
@@ -50,7 +50,7 @@ export default {
         try {
             await nodesApi.deleteNode(id);
         } catch (error) {
-            return res.status(403).json({ error: 'Delete failded.' });
+            return res.status(400).json({ error: 'Delete failded.' });
         }
         
         return res.json({ message: 'Delete success.' });

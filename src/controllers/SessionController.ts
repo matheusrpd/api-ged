@@ -8,7 +8,7 @@ export default {
         try {
             await alfrescoApi.login(username, password);
         } catch (error) {
-            return res.status(403).json({ error: 'Login failed.' });
+            return res.status(400).json({ error: 'Login failed.' });
         }
 
         return res.json({ message: 'Login success!' });
