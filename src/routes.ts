@@ -7,6 +7,7 @@ import SessionController from './controllers/SessionController';
 import FileController from './controllers/FileController';
 import FolderController from './controllers/FolderController';
 import UserController from './controllers/UserController';
+import SearchController from './controllers/SearchController';
 
 const routes = express.Router();
 const upload = multer(configUpload);
@@ -26,5 +27,7 @@ routes.delete('/files/:id', FileController.destroy);
 routes.post('/users', UserController.store);
 routes.get('/users/:id', UserController.show);
 routes.put('/users/:id', UserController.update);
+
+routes.get('/search', SearchController.index);
 
 export default routes;
