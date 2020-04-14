@@ -50,7 +50,7 @@ Enviando através do body as seguintes informações:
 ```javascript
 POST base_url/folders/id/files
 ```
-O campo id na url deve ser preenchido pelo 'id' da pasta onde o arquivo ficará.
+O campo id na url deve ser preenchido pelo `id` da pasta onde o arquivo ficará.
 
 Enviando através de um Multipartform as seguintes informações:
 
@@ -71,14 +71,14 @@ Enviando através de um Multipartform as seguintes informações:
 ```javascript
 GET base_url/files/id
 ```
-O campo id na url deve ser preenhido pelo 'id' do arquivo que deseja as informações.
+O campo id na url deve ser preenhido pelo `id` do arquivo que deseja as informações.
 
 3. Alterar
 
 ```javascript
 PUT base_url/files/id
 ```
-O campo id na url deve ser preenchido pelo 'id' do arquivo que deseja alterar as informações.
+O campo id na url deve ser preenchido pelo `id` do arquivo que deseja alterar as informações.
 
 Enviando através do body os dados que deseja alterar com as possíveis informações:
 
@@ -98,7 +98,7 @@ Enviando através do body os dados que deseja alterar com as possíveis informa�
 ```javascript
 DELETE base_url/files/id
 ```
-O campo id na url deve ser preenhido pelo 'id' do arquivo que deseja deletar.
+O campo id na url deve ser preenhido pelo `id` do arquivo que deseja deletar.
 
 #### Pastas
 
@@ -109,7 +109,7 @@ O campo id na url deve ser preenhido pelo 'id' do arquivo que deseja deletar.
 ```javascript
 POST base_url/folders/id
 ```
-O campo id na url deve ser preenchido pelo 'id' da pasta onde a pasta ficará.
+O campo id na url deve ser preenchido pelo `id` da pasta onde a pasta ficará.
 
 Enviando através do body o nome da pasta:
 
@@ -124,14 +124,14 @@ Enviando através do body o nome da pasta:
 ```javascript
 GET base_url/fdolers/id
 ```
-O campo id na url deve ser preenhido pelo 'id' da pasta que deseja ver os conteúdos presente na pasta.
+O campo id na url deve ser preenhido pelo `id` da pasta que deseja ver os conteúdos presente na pasta.
 
 3. Alterar
 
 ```javascript
 PUT base_url/folders/id
 ```
-O campo id na url deve ser preenchido pelo 'id' da pasta que deseja alterar as informações.
+O campo id na url deve ser preenchido pelo `id` da pasta que deseja alterar as informações.
 
 Enviando através do body o nome que deseja alterar:
 
@@ -146,7 +146,7 @@ Enviando através do body o nome que deseja alterar:
 ```javascript
 DELETE base_url/folders/id
 ```
-O campo id na url deve ser preenhido pelo 'id' da pasta que deseja deletar.
+O campo id na url deve ser preenhido pelo `id` da pasta que deseja deletar.
 
 #### Usuários
 
@@ -177,14 +177,14 @@ Enviando através do body o nome da pasta:
 ```javascript
 GET base_url/users/id
 ```
-O campo id na url deve ser preenhido pelo 'id' do usuário que deseja ver suas informações.
+O campo id na url deve ser preenhido pelo `id` do usuário que deseja ver suas informações.
 
 3. Alterar
 
 ```javascript
 PUT base_url/users/id
 ```
-O campo id na url deve ser preenchido pelo 'id' do usuários que deseja alterar as informações.
+O campo id na url deve ser preenchido pelo `id` do usuários que deseja alterar as informações.
 
 Enviando através do body os dados que deseja alterar nas seguintes possibilidades:
 
