@@ -164,11 +164,11 @@ Enviando através do body o nome da pasta:
 
 ```javascript
 {
-	username
-	firstName
-	lastName,
-	email
-	password
+  username
+  firstName
+  lastName,
+  email
+  password
 }
 ```
 
@@ -190,11 +190,11 @@ Enviando através do body os dados que deseja alterar nas seguintes possibilidad
 
 ```javascript
 {
-	username
-	firstName
-	lastName,
-	email
-	password
+  username
+  firstName
+  lastName,
+  email
+  password
 }
 ```
 
