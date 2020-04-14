@@ -210,6 +210,6 @@ Enviando através de query params o termo que deseja buscar:
 
 ```javascript
 {
-	content
+  content
 }
 ```
