@@ -51,6 +51,7 @@ Enviando através do body as seguintes informações:
 POST base_url/folders/id/files
 ```
 O campo id na url deve ser preenchido pelo `id` da pasta onde o arquivo ficará.
+Caso não tenha criado uma pasta ainda, pode utilizar `-my-` como id, será criado na pasta onde fica todos seu conteúdo.
 
 Enviando através de um Multipartform as seguintes informações:
 
@@ -110,6 +111,7 @@ O campo id na url deve ser preenhido pelo `id` do arquivo que deseja deletar.
 POST base_url/folders/id
 ```
 O campo id na url deve ser preenchido pelo `id` da pasta onde a pasta ficará.
+Caso não tenha criado uma pasta ainda, pode utilizar `-my-` como id, será criada na pasta onde fica todos seu conteúdo.
 
 Enviando através do body o nome da pasta:
 
