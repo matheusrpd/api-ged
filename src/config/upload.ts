@@ -1,13 +1,16 @@
-import { Request } from 'express';
+import multer from 'multer';
+import path from 'path';
+import crypto from 'crypto';
 
-const multer = require('multer');
-const path = require('path');
+export default {
+  storage: multer.diskStorage({
+    destination: path.resolve(__dirname, '..', '..', 'tmp'),
+    filename(request, file, callback) {
+      const fileHash = crypto.randomBytes(10).toString('HEX');
 
-const config = {
-  storage: new multer.diskStorage({
-    destination: path.resolve(__dirname, '..', '..', 'tmp', 'uploads'),
-    filename: (req: Request, file: any, cb: any) => cb(null, file.originalname),
+      const filename = `${fileHash}-${file.originalname}`;
+
+      return callback(null, filename);
+    },
   }),
 };
-
-export default config;
