@@ -1,16 +1,17 @@
 import { Request, Response } from 'express';
-import { alfrescoApi } from '../services/AlfrescoApi';
+import { alfrescoApi, peopleApi } from '../services/AlfrescoApi';
 
 export default {
   async store(req: Request, res: Response): Promise<Response> {
     const { username, password } = req.body;
 
     try {
-      await alfrescoApi.login(username, password);
+      const response = await alfrescoApi.login(username, password);
+      const user = await peopleApi.getPerson(username);
+
+      return res.json({ user: user.entry, ticket: response });
     } catch (error) {
       return res.status(400).json({ error: 'Login failed.' });
     }
-
-    return res.json({ message: 'Login success!' });
   },
 };
