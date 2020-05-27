@@ -18,9 +18,13 @@ export default {
     const { id } = req.params;
 
     try {
-      const response = await nodesApi.listNodeChildren(id);
+      const responseDocuments = await nodesApi.listNodeChildren(id);
+      const responseFolder = await nodesApi.getNode(id);
 
-      const data = response.list?.entries;
+      const data = {
+        folder: responseFolder.entry,
+        documents: responseDocuments.list?.entries,
+      };
 
       return res.json(data);
     } catch (error) {
