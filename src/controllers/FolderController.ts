@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { Request, Response } from 'express';
-import { nodesApi } from '../services/AlfrescoApi';
+import { nodesApi, contentApi } from '../services/AlfrescoApi';
 
 export default {
   async store(req: Request, res: Response): Promise<Response> {
@@ -11,19 +12,55 @@ export default {
       nodeType: 'cm:folder',
     });
 
-    return res.json(response.entry);
+    const folder = {
+      id: response.entry.id,
+      name: response.entry.name,
+      properties: response.entry.properties,
+      createdByUser: response.entry.createdByUser,
+      modifiedByUser: response.entry.modifiedByUser,
+      created_at: response.entry.createdAt,
+      updated_at: response.entry.modifiedAt,
+    };
+
+    return res.json(folder);
   },
 
   async index(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
     try {
-      const responseDocuments = await nodesApi.listNodeChildren(id);
       const responseFolder = await nodesApi.getNode(id);
+      const responseDocuments = await nodesApi.listNodeChildren(id);
+
+      const folder = {
+        name: responseFolder.entry.name,
+        id: responseFolder.entry.id,
+        properties: responseFolder.entry.properties,
+        createdByUser: responseFolder.entry.createdByUser,
+        modifiedByUser: responseFolder.entry.modifiedByUser,
+        created_at: responseFolder.entry.createdAt,
+        updated_at: responseFolder.entry.modifiedAt,
+      };
+
+      const documents = responseDocuments.list?.entries?.map(document => {
+        const url = contentApi.getContentUrl(document.entry.id);
+
+        return {
+          id: document.entry.id,
+          name: document.entry.name,
+          type: document.entry.isFile ? 'file' : 'folder',
+          properties: document.entry.properties,
+          url,
+          createdByUser: document.entry.createdByUser,
+          modifiedByUser: document.entry.modifiedByUser,
+          created_at: document.entry.createdAt,
+          updated_at: document.entry.modifiedAt,
+        };
+      });
 
       const data = {
-        folder: responseFolder.entry,
-        documents: responseDocuments.list?.entries,
+        folder,
+        documents,
       };
 
       return res.json(data);

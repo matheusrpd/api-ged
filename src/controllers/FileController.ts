@@ -4,7 +4,7 @@ import { nodesApi, contentApi } from '../services/AlfrescoApi';
 
 export default {
   async store(req: Request, res: Response): Promise<Response> {
-    const { type, number, year, description, author, date } = req.body;
+    const { type, number, year, name, author } = req.body;
     const { id: parentId } = req.params;
     const properties: { [key: string]: string } = {};
 
@@ -13,14 +13,13 @@ export default {
     properties['cm:type'] = type;
     properties['cm:number'] = number;
     properties['cm:year'] = year;
-    properties['cm:description'] = description;
+    properties['cm:name'] = name;
     properties['cm:author'] = author;
-    properties['cm:date'] = date;
 
     const response = await nodesApi.createNode(
       parentId,
       {
-        name: description,
+        name,
         nodeType: 'cm:content',
         properties,
       },
@@ -30,7 +29,21 @@ export default {
 
     fs.unlinkSync(req.file.path);
 
-    return res.json(response.entry);
+    const url = contentApi.getContentUrl(response.entry.id);
+
+    const data = {
+      id: response.entry.id,
+      name: response.entry.name,
+      properties: response.entry.properties,
+      content: response.entry.content,
+      url,
+      createdByUser: response.entry.createdByUser,
+      modifiedByUser: response.entry.modifiedByUser,
+      createdAt: response.entry.createdAt,
+      modifiedAt: response.entry.modifiedAt,
+    };
+
+    return res.json(data);
   },
 
   async show(req: Request, res: Response): Promise<Response> {
@@ -40,31 +53,18 @@ export default {
       const response = await nodesApi.getNode(parentFolder);
       const file = response.entry;
 
-      const urlDownload = await contentApi.getContentUrl(file.id);
-      const urlPreview = await contentApi.getDocumentPreviewUrl(file.id);
-
-      const {
-        name,
-        id,
-        properties,
-        content,
-        createdByUser,
-        modifiedByUser,
-        createdAt,
-        modifiedAt,
-      } = file;
+      const url = contentApi.getContentUrl(file.id);
 
       const data = {
-        name,
-        id,
-        properties,
-        content,
-        urlDownload,
-        urlPreview,
-        createdByUser,
-        modifiedByUser,
-        createdAt,
-        modifiedAt,
+        id: file.id,
+        name: file.name,
+        properties: file.properties,
+        content: file.content,
+        url,
+        createdByUser: file.createdByUser,
+        modifiedByUser: file.modifiedByUser,
+        createdAt: file.createdAt,
+        modifiedAt: file.modifiedAt,
       };
 
       return res.json(data);
@@ -75,7 +75,7 @@ export default {
 
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { type, number, year, description, author, date } = req.body;
+    const { type, number, year, description, author } = req.body;
     const properties: { [key: string]: string } = {};
 
     try {
@@ -89,7 +89,6 @@ export default {
       properties['cm:description'] =
         description || file.properties['cm:description'];
       properties['cm:author'] = author || file.properties['cm:author'];
-      properties['cm:date'] = date || file.properties['cm:date'];
 
       await nodesApi.updateNode(id, { properties });
 
