@@ -61,9 +61,8 @@ Enviando através de um Multipartform as seguintes informações:
   type,
   number,
   year,
-  description,
+  name,
   author,
-  date
 }
 ```
 
@@ -88,9 +87,8 @@ Enviando através do body os dados que deseja alterar com as possíveis informa�
   type,
   number,
   year,
-  description,
+  name,
   author,
-  date
 }
 ```
 
