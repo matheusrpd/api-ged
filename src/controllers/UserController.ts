@@ -1,9 +1,16 @@
 import { Request, Response } from 'express';
-import { peopleApi } from '../services/AlfrescoApi';
+import { AlfrescoApi, PeopleApi } from '@alfresco/js-api';
 
 export default {
   async store(req: Request, res: Response): Promise<Response> {
     const { username, firstName, lastName, email, password } = req.body;
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const peopleApi = new PeopleApi(alfrescoApi);
 
     const response = await peopleApi.createPerson({
       id: username,
@@ -18,6 +25,13 @@ export default {
 
   async show(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const peopleApi = new PeopleApi(alfrescoApi);
 
     try {
       const response = await peopleApi.getPerson(id);
@@ -31,6 +45,13 @@ export default {
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { username, firstName, lastName, email, password } = req.body;
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const peopleApi = new PeopleApi(alfrescoApi);
 
     try {
       const response = await peopleApi.getPerson(id);

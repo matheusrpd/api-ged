@@ -1,12 +1,20 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
-import { nodesApi, contentApi } from '../services/AlfrescoApi';
+import { AlfrescoApi, NodesApi, ContentApi } from '@alfresco/js-api';
 
 export default {
   async store(req: Request, res: Response): Promise<Response> {
     const { type, number, year, name, author } = req.body;
     const { id: parentId } = req.params;
     const properties: { [key: string]: string } = {};
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const nodesApi = new NodesApi(alfrescoApi);
+    const contentApi = new ContentApi(alfrescoApi);
 
     const file = fs.createReadStream(req.file.path);
 
@@ -48,6 +56,14 @@ export default {
 
   async show(req: Request, res: Response): Promise<Response> {
     const { id: parentFolder } = req.params;
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const nodesApi = new NodesApi(alfrescoApi);
+    const contentApi = new ContentApi(alfrescoApi);
 
     try {
       const response = await nodesApi.getNode(parentFolder);
@@ -78,6 +94,14 @@ export default {
     const { type, number, year, description, author } = req.body;
     const properties: { [key: string]: string } = {};
 
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const nodesApi = new NodesApi(alfrescoApi);
+
     try {
       const response = await nodesApi.getNode(id);
 
@@ -100,6 +124,13 @@ export default {
 
   async destroy(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const nodesApi = new NodesApi(alfrescoApi);
 
     try {
       await nodesApi.deleteNode(id);

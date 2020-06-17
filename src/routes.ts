@@ -9,10 +9,16 @@ import FolderController from './controllers/FolderController';
 import UserController from './controllers/UserController';
 import SearchController from './controllers/SearchController';
 
+import ensureAuthenticated from './middlewares/ensureAuthenticated';
+
 const routes = express.Router();
 const upload = multer(configUpload);
 
 routes.post('/sessions', SessionController.store);
+
+routes.use(ensureAuthenticated);
+
+routes.delete('/sessions', SessionController.delete);
 
 routes.post('/folders/:id', FolderController.store);
 routes.get('/folders/:id', FolderController.index);

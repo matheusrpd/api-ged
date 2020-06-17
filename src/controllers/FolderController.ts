@@ -1,9 +1,17 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { Request, Response } from 'express';
-import { nodesApi, contentApi } from '../services/AlfrescoApi';
+import { AlfrescoApi, NodesApi, ContentApi } from '@alfresco/js-api';
 
 export default {
   async store(req: Request, res: Response): Promise<Response> {
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const nodesApi = new NodesApi(alfrescoApi);
+
     const { id: parentId } = req.params;
     const { name } = req.body;
 
@@ -27,6 +35,14 @@ export default {
 
   async index(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const nodesApi = new NodesApi(alfrescoApi);
+    const contentApi = new ContentApi(alfrescoApi);
 
     try {
       const responseFolder = await nodesApi.getNode(id);
@@ -72,6 +88,13 @@ export default {
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const { name } = req.body;
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const nodesApi = new NodesApi(alfrescoApi);
 
     try {
       if (name) {
@@ -86,6 +109,13 @@ export default {
 
   async destroy(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const { ticket } = req.user;
+
+    const alfrescoApi = new AlfrescoApi({
+      ticketEcm: ticket,
+      hostEcm: 'http://localhost:8080',
+    });
+    const nodesApi = new NodesApi(alfrescoApi);
 
     try {
       await nodesApi.deleteNode(id);
